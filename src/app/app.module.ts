@@ -7,6 +7,7 @@ import {PersonListComponent} from './person/person-list/person-list.component';
 import {PersonFormComponent} from './person/person-form/person-form.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import {AppMaterialModule} from "./app-material.module";
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import {FlexLayoutModule} from '@angular/flex-layout';
         BrowserAnimationsModule,
         FlexLayoutModule,
         AppRoutingModule,
+        AppMaterialModule
     ],
     providers: [],
     bootstrap: [AppComponent]

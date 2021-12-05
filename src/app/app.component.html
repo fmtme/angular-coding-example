@@ -1,1 +1,10 @@
-<router-outlet></router-outlet>
+<ng-container>
+    <header>
+        <mat-toolbar color="primary">
+            <a [routerLink]="['/']">Angular + Material Demo</a>
+        </mat-toolbar>
+    </header>
+    <main>
+        <router-outlet></router-outlet>
+    </main>
+</ng-container>

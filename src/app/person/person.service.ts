@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {PEOPLE} from "../../data/mock-data";
 
-interface Person {
+export interface Person {
     id: number;
     firstName: string;
     lastName: string;
@@ -37,5 +37,9 @@ export class PersonService {
         let id = this.personIdCounter;
         this.personIdCounter++;
         return id;
+    }
+
+    getAll(){
+        return this.personData;
     }
 }

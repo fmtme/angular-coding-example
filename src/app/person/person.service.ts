@@ -5,7 +5,9 @@ export interface Person {
     id: number;
     firstName: string;
     lastName: string;
-    dateOfBirth: Date | string
+    email: string;
+    dateOfBirth: Date | string;
+    telephone: string;
 }
 
 @Injectable({
@@ -42,4 +44,16 @@ export class PersonService {
     getAll(){
         return this.personData;
     }
+
+    getById(personId: number): Person | undefined {
+        return this.personData.find(({id}) => id == personId)
+    }
+
+    update(p: Person): void {
+        const index = this.personData.findIndex(el => el.id === p.id);
+        if (index !== -1) {
+            this.personData[index] = {...p}
+        }
+    }
+
 }

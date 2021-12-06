@@ -1,4 +1,3 @@
-
 <ng-template [ngIf]="isDesktop"> <!-- Desktop -->
     <!-- Filter -->
     <mat-form-field appearance="standard">
@@ -42,6 +41,18 @@
     </mat-paginator>
 </ng-template>
 
-<ng-template [ngIf]="!isDesktop"><!-- Mobile -->
-    Mobile Template
+<!-- Mobile -->
+<ng-template [ngIf]="!isDesktop">
+    <div fxLayout="column" fxLayoutGap="16px">
+        <mat-card *ngFor="let person of dataSource.data">
+            <mat-card-title>{{person.firstName}} {{person.lastName}}</mat-card-title>
+            <mat-card-content>
+                <p>Date Of Birth: {{person.dateOfBirth | date:'dd/MM/yyyy' }}</p>
+                <p>Email: {{person.email}}</p>
+            </mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary">Edit</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </ng-template>

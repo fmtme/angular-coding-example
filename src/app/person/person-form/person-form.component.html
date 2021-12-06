@@ -1,1 +1,48 @@
-<p>person-form works!</p>
+<form [formGroup]="personForm" (ngSubmit)="onSubmit()" fxLayout="column">
+
+    <!-- First Name -->
+    <mat-form-field appearance="standard">
+        <mat-label>First Name</mat-label>
+        <input
+                matInput
+                formControlName="firstName"
+        >
+    </mat-form-field>
+
+    <!-- Last Name Name -->
+    <mat-form-field appearance="standard">
+        <mat-label>Last Name</mat-label>
+        <input
+                matInput
+                formControlName="lastName"
+        >
+    </mat-form-field>
+
+    <!-- DOB -->
+    <mat-form-field>
+        <input matInput [min]="minDate" [max]="maxDate" [matDatepicker]="dobpicker" formControlName="dateOfBirth" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="dobpicker"></mat-datepicker-toggle>
+        <mat-datepicker #dobpicker  [startAt]="startDate"></mat-datepicker>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="standard">
+        <mat-label>Telephone</mat-label>
+        <input
+                matInput
+                formControlName="telephone"
+        >
+    </mat-form-field>
+    <mat-form-field appearance="standard">
+        <mat-label>Email</mat-label>
+        <input
+                matInput
+                formControlName="email"
+        >
+    </mat-form-field>
+    <div fxLayout="row wrap" fxLayoutGap="7px">
+        <button type="submit" mat-raised-button color="primary">Save</button>
+        <!-- todo: implement form reset-->
+    </div>
+</form>
+<a [routerLink]="['/']">Back to All People</a>

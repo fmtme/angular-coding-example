@@ -1,9 +1,10 @@
-import {AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewChecked, AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import {PersonService} from "../person.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {BreakpointObserver , BreakpointState} from "@angular/cdk/layout";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-person-list',
@@ -19,9 +20,13 @@ export class PersonListComponent implements OnInit, AfterViewInit {
     // in a real app these are things we'd probably do on server
     dataSource: MatTableDataSource<any>;
     displayedColumns: string[] = ['firstName', 'lastName', 'dateOfBirth', 'email']; // this determines visual order, not ng-container in template
-    isDesktop: boolean;
+    isDesktop: boolean = true;
 
-    constructor(private personService: PersonService, private breakpointObserver: BreakpointObserver) {}
+    constructor(
+        private personService: PersonService,
+        private breakpointObserver: BreakpointObserver,
+        private router: Router
+    ) {}
 
     ngOnInit(): void {
         this.dataSource = new MatTableDataSource(this.personService.getAll())
@@ -29,13 +34,7 @@ export class PersonListComponent implements OnInit, AfterViewInit {
         this.breakpointObserver
             .observe(['(min-width: 700px)'])
             .subscribe((state: BreakpointState) => {
-                if (state.matches) {
-                    console.log('Viewport width is 500px or greater!');
-                    this.isDesktop = true;
-                } else {
-                    console.log('Viewport width is less than 500px!');
-                    this.isDesktop = false
-                }
+                this.isDesktop = state.matches;
             });
     }
 
@@ -44,8 +43,11 @@ export class PersonListComponent implements OnInit, AfterViewInit {
         this.dataSource.sort = this.sort;
     }
 
+
+
     onRowClick(id: number): void {
         console.log(id)
+        this.router.navigate([`/person/${id}`])
     }
 
     applySearchFilter(event: Event) {

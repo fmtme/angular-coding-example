@@ -1,41 +1,47 @@
 
-<!-- Filter -->
-<mat-form-field appearance="standard">
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applySearchFilter($event)" placeholder="Ex. Pavel ">
-</mat-form-field>
-<mat-table [dataSource]="dataSource" matSort>
-    <!-- First Name Column -->
-    <ng-container matColumnDef="firstName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>First Name</mat-header-cell>
-        <mat-cell *matCellDef="let person"> {{person.firstName}} </mat-cell>
-    </ng-container>
+<ng-template [ngIf]="isDesktop"> <!-- Desktop -->
+    <!-- Filter -->
+    <mat-form-field appearance="standard">
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applySearchFilter($event)" placeholder="Ex. Pavel ">
+    </mat-form-field>
+    <mat-table [dataSource]="dataSource" matSort>
+        <!-- First Name Column -->
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>First Name</mat-header-cell>
+            <mat-cell *matCellDef="let person"> {{person.firstName}} </mat-cell>
+        </ng-container>
 
-    <!-- Last Name Column -->
-    <ng-container matColumnDef="lastName">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</mat-header-cell>
-        <mat-cell *matCellDef="let person">{{person.lastName}}</mat-cell>
-    </ng-container>
+        <!-- Last Name Column -->
+        <ng-container matColumnDef="lastName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</mat-header-cell>
+            <mat-cell *matCellDef="let person">{{person.lastName}}</mat-cell>
+        </ng-container>
 
-    <!-- DOB Column -->
-    <ng-container matColumnDef="dateOfBirth">
-        <mat-header-cell *matHeaderCellDef>Date Of Birth</mat-header-cell>
-        <mat-cell *matCellDef="let person">{{person.dateOfBirth | date:'dd/MM/yyyy' }}</mat-cell>
-    </ng-container>
+        <!-- DOB Column -->
+        <ng-container matColumnDef="dateOfBirth">
+            <mat-header-cell *matHeaderCellDef>Date Of Birth</mat-header-cell>
+            <mat-cell *matCellDef="let person">{{person.dateOfBirth | date:'dd/MM/yyyy' }}</mat-cell>
+        </ng-container>
 
-    <!-- DOB Column -->
-    <ng-container matColumnDef="email">
-        <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
-        <mat-cell *matCellDef="let person">{{person.email}}</mat-cell>
-    </ng-container>
+        <!-- DOB Column -->
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+            <mat-cell *matCellDef="let person">{{person.email}}</mat-cell>
+        </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row
-            *matRowDef="let person; columns: displayedColumns;"
-            (click)="onRowClick(person.id)"
-    ></mat-row>
-</mat-table>
-<mat-paginator [pageSize]="10"
-               [pageSizeOptions]="[5, 10, 25, 100]"
-               aria-label="Select page">
-</mat-paginator>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row
+                *matRowDef="let person; columns: displayedColumns;"
+                (click)="onRowClick(person.id)"
+        ></mat-row>
+    </mat-table>
+    <mat-paginator [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 25, 100]"
+                   aria-label="Select page">
+    </mat-paginator>
+</ng-template>
+
+<ng-template [ngIf]="!isDesktop"><!-- Mobile -->
+    Mobile Template
+</ng-template>

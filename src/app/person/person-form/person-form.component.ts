@@ -1,7 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Person, PersonService} from "../person.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {FormControl, FormGroup} from "@angular/forms";
+import {
+    AbstractControl,
+    FormControl,
+    FormGroup,
+    ValidationErrors,
+    ValidatorFn,
+    Validators
+} from "@angular/forms";
 
 @Component({
     selector: 'app-person-form',
@@ -19,12 +26,13 @@ export class PersonFormComponent implements OnInit {
     constructor(
         private personService: PersonService,
         private router: Router,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
     ) {
     }
 
     ngOnInit(): void {
         this.person = this.personService.getById(this.route.snapshot.params['id']);
+
         // if no person with uuid found, redirect to not found
         if (!this.person) {
             this.router.navigate(['/not-found'])
@@ -33,28 +41,46 @@ export class PersonFormComponent implements OnInit {
     }
 
     onSubmit() {
-        // todo: validate form data
-
-        this.personService.update({
-            id: this.route.snapshot.params['id'],
-            firstName: this.personForm.value.first_name,
-            lastName: this.personForm.value.last_name,
-            dateOfBirth: this.personForm.value.dob,
-            email: this.personForm.value.email,
-            telephone: this.personForm.value.telephone
-        })
+        if(!this.personForm.invalid) {
+            const updatedPerson: Person = {
+                id: this.route.snapshot.params['id'],
+                firstName: this.personForm.value.firstName,
+                lastName: this.personForm.value.lastName,
+                dateOfBirth: this.personForm.value.dateOfBirth,
+                email: this.personForm.value.email,
+                telephone: this.personForm.value.telephone
+            }
+            this.personService.update(updatedPerson)
+        }
     }
 
 
     private initForm() {
         let p = {...this.person}
-        console.log(p)
+
         this.personForm = new FormGroup({
-            'firstName': new FormControl(p.firstName),
-            'lastName': new FormControl(this.person?.lastName),
-            'dateOfBirth': new FormControl(this.person?.dateOfBirth),
-            'telephone': new FormControl(this.person?.telephone),
-            'email': new FormControl(this.person?.email),
+            firstName: new FormControl(p.firstName, [
+                Validators.required,
+            ]),
+            lastName: new FormControl(p.firstName, [
+                Validators.required,
+            ]),
+            dateOfBirth: new FormControl(p.dateOfBirth, Validators.required),
+            telephone: new FormControl(p.telephone),
+            email: new FormControl(p.email, this.emailValidator())
         });
     }
+
+    emailValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            const isValid = re.test(control.value);
+            return !isValid ? {invalidEmail: {value: control.value}} : null;
+        };
+    }
+
+    public checkError = (controlName: string, errorName: string) => {
+        return this.personForm.controls[controlName].hasError(errorName);
+    }
+
 }

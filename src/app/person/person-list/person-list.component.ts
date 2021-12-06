@@ -1,4 +1,4 @@
-import {AfterViewChecked, AfterViewInit, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {PersonService} from "../person.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
@@ -30,7 +30,6 @@ export class PersonListComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
         this.dataSource = new MatTableDataSource(this.personService.getAll())
-        console.log(this.dataSource)
         this.breakpointObserver
             .observe(['(min-width: 700px)'])
             .subscribe((state: BreakpointState) => {

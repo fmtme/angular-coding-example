@@ -7,6 +7,7 @@
                 matInput
                 formControlName="firstName"
         >
+        <mat-error *ngIf="checkError('firstName', 'required')">First Name is Required</mat-error>
     </mat-form-field>
 
     <!-- Last Name Name -->
@@ -16,6 +17,7 @@
                 matInput
                 formControlName="lastName"
         >
+        <mat-error *ngIf="checkError('firstName', 'required')">Last Name is Required</mat-error>
     </mat-form-field>
 
     <!-- DOB -->
@@ -38,10 +40,13 @@
         <input
                 matInput
                 formControlName="email"
+                required
         >
+        <mat-error *ngIf="checkError('email', 'required')">Email is required.</mat-error>
+        <mat-error *ngIf="checkError('email', 'invalidEmail')">Must be a valid Email.</mat-error>
     </mat-form-field>
     <div fxLayout="row wrap" fxLayoutGap="7px">
-        <button type="submit" mat-raised-button color="primary">Save</button>
+        <button type="submit" mat-raised-button color="primary" [disabled]="personForm.invalid">Save</button>
         <!-- todo: implement form reset-->
     </div>
 </form>

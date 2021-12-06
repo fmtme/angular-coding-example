@@ -50,10 +50,12 @@ export class PersonService {
     }
 
     update(p: Person): void {
-        const index = this.personData.findIndex(el => el.id === p.id);
+        let newData = [...this.personData];
+        const index = newData.findIndex(el => el.id == p.id);
         if (index !== -1) {
-            this.personData[index] = {...p}
+            newData[index] = p
         }
+        this.personData = newData;
     }
 
 }
